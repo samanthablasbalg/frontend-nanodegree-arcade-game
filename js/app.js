@@ -47,12 +47,34 @@ Player.prototype.update = function(dir,value)
 {
     if (dir === 'x')
     {
-        this.x = this.x + value;
+        // board check
+        var withinX = (this.x+value >= 0) && (this.x+value <= 400);
+        if (withinX)
+        {
+            this.x = this.x + value;
+        };        
     }
     else 
     {
-        this.y = this.y + value;
-    }
+        //board check
+        var withinY = (this.y+value >= -50) && (this.y+value <= 375);
+        if (withinY)
+        {
+            this.y = this.y + value;
+        };        
+    };
+
+    // collision check
+    // for (var i = 0, len = allEnemies.length; i<len; i++)
+    // {
+    //     enemyXMin = allEnemies[i].x-100;
+    //     enemyXMax = allEnemies[i].x;
+    //     if (this.x > enemyXMin && this.x < enemyXMax)
+    //     {
+    //         this.x = 200;
+    //         this.y = 375;
+    //     };
+    // };
 };
 
 Player.handleInput = function(key) {
@@ -71,13 +93,12 @@ Player.handleInput = function(key) {
     else
     {
         player.update('x',100);
-    }
+    };
 };
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-//var enemy1 = new Enemy(205);
 
 allEnemies = [new Enemy(35), new Enemy(120), new Enemy(205)];
 var player = new Player;
