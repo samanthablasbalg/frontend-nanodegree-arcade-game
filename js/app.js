@@ -21,6 +21,7 @@ Enemy.prototype.update = function(dt) {
     if (this.x + 20 > 505)
     {
         this.x = -20;
+        this.speed = Math.floor((Math.random()*200)+1);
     };
 };
 
@@ -42,12 +43,35 @@ Player.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite),this.x,this.y);
 };
 
+Player.prototype.update = function(dir,value)
+{
+    if (dir === 'x')
+    {
+        this.x = this.x + value;
+    }
+    else 
+    {
+        this.y = this.y + value;
+    }
+};
+
 Player.handleInput = function(key) {
-    console.log('inside handleInput')
     if (key === 'up')
     {
-        this.y = this.y-85;
-    };
+        player.update('y',-85);
+    }
+    else if (key === 'down')
+    {
+        player.update('y',85);
+    }
+    else if (key === 'left')
+    {
+        player.update('x',-100);
+    }
+    else
+    {
+        player.update('x',100);
+    }
 };
 
 // Now instantiate your objects.
@@ -70,8 +94,5 @@ document.addEventListener('keyup', function(e) {
         40: 'down'
     };
 
-    console.log(e.KeyCode);
-    console.log(allowedKeys[e.keyCode]);
-
-    player.handleInput(allowedKeys[e.keyCode]);
+    Player.handleInput(allowedKeys[e.keyCode]);
 });
