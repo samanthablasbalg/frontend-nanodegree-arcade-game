@@ -74,11 +74,16 @@ Player.prototype.update = function(dir,value)
     else if (dir === 'y')
     {
         //board check
-        var withinY = (this.y+value >= -50) && (this.y+value <= 375);
+        var withinY = (this.y+value > -50) && (this.y+value <= 375);
         if (withinY)
         {
             this.y = this.y + value;
-        };       
+        }
+        else if(this.y+value === -50)
+        {
+            this.y = this.y + value;
+            player.update('reset');
+        };
     }
     else
     {
