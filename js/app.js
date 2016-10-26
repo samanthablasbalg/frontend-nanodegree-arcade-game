@@ -18,10 +18,27 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x = this.x + this.speed*dt;
-    if (this.x + 20 > 505)
+    if (this.x > 505)
     {
-        this.x = -20;
+        this.x = -100;
         this.speed = Math.floor((Math.random()*200)+1);
+    };
+
+    // collision check
+    if (player.y == this.y)
+    {
+        var minPlayer = player.x+25;
+        var maxPlayer = player.x+75;
+        var minEnemy = this.x;
+        var maxEnemy = this.x+100;
+
+        var minPlayerInsideEnemy = (minPlayer>minEnemy) && (minPlayer<maxEnemy);
+        var maxPlayerInsideEnemy = (maxPlayer>minEnemy) && (maxPlayer<maxEnemy);
+
+        if (minPlayerInsideEnemy || maxPlayerInsideEnemy)
+        {
+            player.update('reset');
+        };
     };
 };
 
@@ -54,27 +71,20 @@ Player.prototype.update = function(dir,value)
             this.x = this.x + value;
         };        
     }
-    else 
+    else if (dir === 'y')
     {
         //board check
         var withinY = (this.y+value >= -50) && (this.y+value <= 375);
         if (withinY)
         {
             this.y = this.y + value;
-        };        
+        };       
+    }
+    else
+    {
+        this.x = 200;
+        this.y = 375;
     };
-
-    // collision check
-    // for (var i = 0, len = allEnemies.length; i<len; i++)
-    // {
-    //     enemyXMin = allEnemies[i].x-100;
-    //     enemyXMax = allEnemies[i].x;
-    //     if (this.x > enemyXMin && this.x < enemyXMax)
-    //     {
-    //         this.x = 200;
-    //         this.y = 375;
-    //     };
-    // };
 };
 
 Player.handleInput = function(key) {
